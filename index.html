@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+
+    <title></title>
+    </head>
+    <body>
+        <h1> Mapa con las series de vegetacion de Navarra </h1> <!--Titulo del mapa-->
+    
+<!-- Añado estilo css para la visualización general. Cambio la extensión y posición del mapa y creo estilos para los encabezados 1 y 3-->
+<style>
+    html, body, #map {
+        align-content: center;
+        background-color: black
+      }
+
+    h1 {background-color: black; color: white; padding: 5px; font-family: sans-serif; text-align: left: ;}
+    h3 {color: black; font-family: sans-serif; text-align: center}
+
+    </style>
+
+        <head> <!-- establezco las características generales del visualizador-->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 1033px;
+            height: 564px;
+        }
+        </style>
+        <title></title>
+    </head><!-- caracteristicas de los js-->
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/seriesvegetales_1.js"></script>
+
+        
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[42.40889970776378,-2.0875248752467868],[42.99307903699424,-0.6690854404658412]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_imagensatelite_0');
+        map.getPane('pane_imagensatelite_0').style.zIndex = 400;
+        var layer_imagensatelite_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_imagensatelite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_imagensatelite_0;
+        map.addLayer(layer_imagensatelite_0);
+        function pop_seriesvegetales_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERIE'] !== null ? autolinker.link(feature.properties['SERIE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_seriesvegetales_1_0(feature) {
+            switch(String(feature.properties['SERIE'])) {
+                case 'Faciación con Pistacia lentiscus':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(126,219,39,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación de calizas marmorizadas con Carpinus betulus':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(133,182,111,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación de foces y congostos con Arbutus unedo':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(224,90,126,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación mesomediterránea con Quercus coccifera':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(117,225,108,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación montana con Quercus humilis':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(172,220,88,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación sangüesina con Buxus sempervirens':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(41,76,234,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación sobre yesos':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(214,73,170,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación sobre yesos cristalinos':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(135,217,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Faciación supramediterránea con Arctostaphylos crassifolia':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(208,104,162,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Geoserie bajoaragonesa halohigrófila de saladares':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(198,89,231,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Geoserie fluvial cantabroatlántica oriental de las alisedas':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(146,48,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Geoserie fluvial castellano-cantábrica y pamplonesa de las alisedas y olmedas':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(213,22,48,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Geoserie fluvial pirenaica central y prepirenaica de las choperas negras':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(44,207,207,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Geoserie mediterránea ibérica central mesomediterránea de las alamedas blancas fluviales':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(218,182,18,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Masas de Agua':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(70,226,78,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie altioreina pirenaica central de los pastizales criorotemplados calcícolas de Kobresia myosuroides (Oxytropido foucaudii-Kobresio myosuroidis Sigmetum)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(217,207,15,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie asturiano-euskalduna de las fresnedas con robles pedunculados temporihigrófilas (Polysticho setiferi-Fraxino excelsior S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(217,102,227,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie ayllonense, oroibérica septentrional y leonesa de los marojales (Festuco braun-blanquetii-Querco pyrenaicae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(27,182,209,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie bajoaragonesa de los coscojares con sabinas negrales mesomediterráneos (Rhamno lycioidis-Querco cocciferae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(155,106,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie bajoaragonesa de los encinares rotundifolios mesomediterráneos (Querco rotundifoliae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(239,88,32,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie cantabroeuskalduna de los marojales (Melampyro pratensis-Querco pyrenaicae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(217,118,212,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie cantabroeuskalduna de los robledales albares (Pulmonario longifoliae-Querco petraeae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(43,116,205,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie cantabroeuskalduna de los robledales pedunculados (Hyperico pulchri-Querco roboris S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(63,230,141,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie cantabroeuskalduna y ovetense de los encinares ilicifolios e híbridos relictos (Lauro nobilis-Querco ilicis S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(63,230,141,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie cantabroeuskalduna y pirenaica occidental de los hayedos acidófilos (Saxifrago hirsutae-Fago sylvaticae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(215,55,122,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie castellano-cantábrica y camerana de los encinares rotundifolios (Spiraeo obovatae-Querco rotundifoliae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(237,165,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie castellano-cantábrica, riojano-estellesa y camerana de los quejigares ibéricos (Spiraeo obovatae-Querco fagineae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(50,169,216,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie navarro-alavesa de los robledales pedunculados temporihigrófilos (Crataego laevigatae-Querco roboris S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(195,203,117,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie navarro-alavesa y cántabra meridional de los quejigares ibéricos (Pulmonario longifoliae-Querco fagineae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(144,134,240,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie orocantabroatlántica de los hayedos mesofíticos neutrófilos (Carici sylvaticae-Fago sylvaticae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(125,221,157,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie orocantabroatlántica y oroibérica septentrional de los hayedos submesofíticos neutrófilos (Epipactido helleborines-Fago sylvaticae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(150,238,125,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie oroibérica septentrional y ayllonense de los hayedos acidófilos (Galio rotundifolii-Fago sylvaticae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(150,238,125,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica de las fresnedas con robles albares o pubescentes temporihigrófilas (Brachypodio sylvatici-Fraxino excelsioris S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(26,221,195,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica de los hayedos submesofíticos neutrófilos (Buxo sempervirentis-Fago sylvaticae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(64,72,219,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica occidental supratemplada de los abetales submesofíticos neutrófilos (Emero majoris-Abieti albae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(231,153,63,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica occidental y navarro-alavesa de los robledales pubescentes (Roso arvensis-Querco pubescentis S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(160,120,230,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica orotemplada de los pinares negros con rododendros mesofíticos y quionófilos (Rhododendro ferruginei-Pino uncinatae S.) y serie pirenaica orotemplada de los pinares negros xerofíticos y quionófobos(Arctostaphylo uvae-ursi-Pino uncinatae S.':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(54,140,202,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica supratemplada de los abetales mesofíticos neutrófilos (Festuco altissimae-Abieti albae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(72,29,214,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica supratemplada de los hayedos mesofíticos neutrófilos (Scillo lilio-hyacinthi-Fago sylvaticae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(180,218,53,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie pirenaica supratemplada de los pinares albares silicícolas (Veronico officinalis-Pino sylvestris S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(218,39,185,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie prepirenaica occidental supratemplada de los pinares albares calcícolas (Echinosparto horridi-Pino sylvestris S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(82,223,108,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie prepirenaica y somontana de los encinares rotundifolios (Buxo sempervirentis-Querco rotundifoliae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(31,94,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Serie somontana de los quejigares ibéricos (Violo willkommii-Querco fagineae S.)':
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(133,219,196,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_seriesvegetales_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                FILLOPACITY: .999,
+                fillColor: 'rgba(214,53,28,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_seriesvegetales_1');
+        map.getPane('pane_seriesvegetales_1').style.zIndex = 401;
+        map.getPane('pane_seriesvegetales_1').style['mix-blend-mode'] = 'normal';
+        var layer_seriesvegetales_1 = new L.geoJson(json_seriesvegetales_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_seriesvegetales_1',
+            layerName: 'layer_seriesvegetales_1',
+            pane: 'pane_seriesvegetales_1',
+            onEachFeature: pop_seriesvegetales_1,
+            style: style_seriesvegetales_1_0,
+        });
+        bounds_group.addLayer(layer_seriesvegetales_1);
+        map.addLayer(layer_seriesvegetales_1);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'series vegetales<br /><table><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónconPistacialentiscus0.png" /></td><td>Faciación con Pistacia lentiscus</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciacióndecalizasmarmorizadasconCarpinusbetulus1.png" /></td><td>Faciación de calizas marmorizadas con Carpinus betulus</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciacióndefocesycongostosconArbutusunedo2.png" /></td><td>Faciación de foces y congostos con Arbutus unedo</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónmesomediterráneaconQuercuscoccifera3.png" /></td><td>Faciación mesomediterránea con Quercus coccifera</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónmontanaconQuercushumilis4.png" /></td><td>Faciación montana con Quercus humilis</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónsangüesinaconBuxussempervirens5.png" /></td><td>Faciación sangüesina con Buxus sempervirens</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Faciaciónsobreyesos6.png" /></td><td>Faciación sobre yesos</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Faciaciónsobreyesoscristalinos7.png" /></td><td>Faciación sobre yesos cristalinos</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónsupramediterráneaconArctostaphyloscrassifolia8.png" /></td><td>Faciación supramediterránea con Arctostaphylos crassifolia</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriebajoaragonesahalohigrófiladesaladares9.png" /></td><td>Geoserie bajoaragonesa halohigrófila de saladares</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriefluvialcantabroatlánticaorientaldelasalisedas10.png" /></td><td>Geoserie fluvial cantabroatlántica oriental de las alisedas</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriefluvialcastellanocantábricaypamplonesadelasalisedasyolmedas11.png" /></td><td>Geoserie fluvial castellano-cantábrica y pamplonesa de las alisedas y olmedas</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriefluvialpirenaicacentralyprepirenaicadelaschoperasnegras12.png" /></td><td>Geoserie fluvial pirenaica central y prepirenaica de las choperas negras</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriemediterráneaibéricacentralmesomediterráneadelasalamedasblancasfluviales13.png" /></td><td>Geoserie mediterránea ibérica central mesomediterránea de las alamedas blancas fluviales</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_MasasdeAgua14.png" /></td><td>Masas de Agua</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriealtioreinapirenaicacentraldelospastizalescriorotempladoscalcícolasdeKobresiamyosuroidesOxytropidofoucaudiiKobresiomyosuroidisSigmetum15.png" /></td><td>Serie altioreina pirenaica central de los pastizales criorotemplados calcícolas de Kobresia myosuroides (Oxytropido foucaudii-Kobresio myosuroidis Sigmetum)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieasturianoeuskaldunadelasfresnedasconroblespedunculadostemporihigrófilasPolystichosetiferiFraxinoexcelsiorS16.png" /></td><td>Serie asturiano-euskalduna de las fresnedas con robles pedunculados temporihigrófilas (Polysticho setiferi-Fraxino excelsior S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieayllonenseoroibéricaseptentrionalyleonesadelosmarojalesFestucobraunblanquetiiQuercopyrenaicaeS17.png" /></td><td>Serie ayllonense, oroibérica septentrional y leonesa de los marojales (Festuco braun-blanquetii-Querco pyrenaicae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriebajoaragonesadeloscoscojaresconsabinasnegralesmesomediterráneosRhamnolycioidisQuercococciferaeS18.png" /></td><td>Serie bajoaragonesa de los coscojares con sabinas negrales mesomediterráneos (Rhamno lycioidis-Querco cocciferae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriebajoaragonesadelosencinaresrotundifoliosmesomediterráneosQuercorotundifoliaeS19.png" /></td><td>Serie bajoaragonesa de los encinares rotundifolios mesomediterráneos (Querco rotundifoliae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunadelosmarojalesMelampyropratensisQuercopyrenaicaeS20.png" /></td><td>Serie cantabroeuskalduna de los marojales (Melampyro pratensis-Querco pyrenaicae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunadelosrobledalesalbaresPulmonariolongifoliaeQuercopetraeaeS21.png" /></td><td>Serie cantabroeuskalduna de los robledales albares (Pulmonario longifoliae-Querco petraeae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunadelosrobledalespedunculadosHypericopulchriQuercoroborisS22.png" /></td><td>Serie cantabroeuskalduna de los robledales pedunculados (Hyperico pulchri-Querco roboris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunayovetensedelosencinaresilicifoliosehíbridosrelictosLauronobilisQuercoilicisS23.png" /></td><td>Serie cantabroeuskalduna y ovetense de los encinares ilicifolios e híbridos relictos (Lauro nobilis-Querco ilicis S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunaypirenaicaoccidentaldeloshayedosacidófilosSaxifragohirsutaeFagosylvaticaeS24.png" /></td><td>Serie cantabroeuskalduna y pirenaica occidental de los hayedos acidófilos (Saxifrago hirsutae-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecastellanocantábricaycameranadelosencinaresrotundifoliosSpiraeoobovataeQuercorotundifoliaeS25.png" /></td><td>Serie castellano-cantábrica y camerana de los encinares rotundifolios (Spiraeo obovatae-Querco rotundifoliae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecastellanocantábricariojanoestellesaycameranadelosquejigaresibéricosSpiraeoobovataeQuercofagineaeS26.png" /></td><td>Serie castellano-cantábrica, riojano-estellesa y camerana de los quejigares ibéricos (Spiraeo obovatae-Querco fagineae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerienavarroalavesadelosrobledalespedunculadostemporihigrófilosCrataegolaevigataeQuercoroborisS27.png" /></td><td>Serie navarro-alavesa de los robledales pedunculados temporihigrófilos (Crataego laevigatae-Querco roboris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerienavarroalavesaycántabrameridionaldelosquejigaresibéricosPulmonariolongifoliaeQuercofagineaeS28.png" /></td><td>Serie navarro-alavesa y cántabra meridional de los quejigares ibéricos (Pulmonario longifoliae-Querco fagineae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieorocantabroatlánticadeloshayedosmesofíticosneutrófilosCaricisylvaticaeFagosylvaticaeS29.png" /></td><td>Serie orocantabroatlántica de los hayedos mesofíticos neutrófilos (Carici sylvaticae-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieorocantabroatlánticayoroibéricaseptentrionaldeloshayedossubmesofíticosneutrófilosEpipactidohelleborinesFagosylvaticaeS30.png" /></td><td>Serie orocantabroatlántica y oroibérica septentrional de los hayedos submesofíticos neutrófilos (Epipactido helleborines-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieoroibéricaseptentrionalyayllonensedeloshayedosacidófilosGaliorotundifoliiFagosylvaticaeS31.png" /></td><td>Serie oroibérica septentrional y ayllonense de los hayedos acidófilos (Galio rotundifolii-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicadelasfresnedasconroblesalbaresopubescentestemporihigrófilasBrachypodiosylvaticiFraxinoexcelsiorisS32.png" /></td><td>Serie pirenaica de las fresnedas con robles albares o pubescentes temporihigrófilas (Brachypodio sylvatici-Fraxino excelsioris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicadeloshayedossubmesofíticosneutrófilosBuxosempervirentisFagosylvaticaeS33.png" /></td><td>Serie pirenaica de los hayedos submesofíticos neutrófilos (Buxo sempervirentis-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicaoccidentalsupratempladadelosabetalessubmesofíticosneutrófilosEmeromajorisAbietialbaeS34.png" /></td><td>Serie pirenaica occidental supratemplada de los abetales submesofíticos neutrófilos (Emero majoris-Abieti albae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicaoccidentalynavarroalavesadelosrobledalespubescentesRosoarvensisQuercopubescentisS35.png" /></td><td>Serie pirenaica occidental y navarro-alavesa de los robledales pubescentes (Roso arvensis-Querco pubescentis S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicaorotempladadelospinaresnegrosconrododendrosmesofíticosyquionófilosRhododendroferrugineiPinouncinataeSyseriepirenaicaorotempladadelospinaresnegrosxerofíticosyquionófobosArctostaphylouvaeursiPinouncinataeS36.png" /></td><td>Serie pirenaica orotemplada de los pinares negros con rododendros mesofíticos y quionófilos (Rhododendro ferruginei-Pino uncinatae S.) y serie pirenaica orotemplada de los pinares negros xerofíticos y quionófobos(Arctostaphylo uvae-ursi-Pino uncinatae S.</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicasupratempladadelosabetalesmesofíticosneutrófilosFestucoaltissimaeAbietialbaeS37.png" /></td><td>Serie pirenaica supratemplada de los abetales mesofíticos neutrófilos (Festuco altissimae-Abieti albae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicasupratempladadeloshayedosmesofíticosneutrófilosScilloliliohyacinthiFagosylvaticaeS38.png" /></td><td>Serie pirenaica supratemplada de los hayedos mesofíticos neutrófilos (Scillo lilio-hyacinthi-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicasupratempladadelospinaresalbaressilicícolasVeronicoofficinalisPinosylvestrisS39.png" /></td><td>Serie pirenaica supratemplada de los pinares albares silicícolas (Veronico officinalis-Pino sylvestris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieprepirenaicaoccidentalsupratempladadelospinaresalbarescalcícolasEchinospartohorridiPinosylvestrisS40.png" /></td><td>Serie prepirenaica occidental supratemplada de los pinares albares calcícolas (Echinosparto horridi-Pino sylvestris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieprepirenaicaysomontanadelosencinaresrotundifoliosBuxosempervirentisQuercorotundifoliaeS41.png" /></td><td>Serie prepirenaica y somontana de los encinares rotundifolios (Buxo sempervirentis-Querco rotundifoliae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriesomontanadelosquejigaresibéricosViolowillkommiiQuercofagineaeS42.png" /></td><td>Serie somontana de los quejigares ibéricos (Violo willkommii-Querco fagineae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_43.png" /></td><td></td></tr></table>': layer_seriesvegetales_1,"imagen satelite": layer_imagensatelite_0,}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"SERIE": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + key).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + key).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + key).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_SERIE = document.createElement('div');
+            div_SERIE.id = "div_SERIE";
+            div_SERIE.className= "filterselect";
+            document.getElementById("menu").appendChild(div_SERIE);
+            sel_SERIE = document.createElement('select');
+            sel_SERIE.multiple = true;
+            sel_SERIE.size = 10;
+            sel_SERIE.id = "sel_SERIE";
+            var SERIE_options_str = "<option value='' unselected></option>";
+            sel_SERIE.onchange = function(){filterFunc()};
+            SERIE_options_str  += '<option value="Faciación con Pistacia lentiscus">Faciación con Pistacia lentiscus</option>';
+            SERIE_options_str  += '<option value="Faciación de calizas marmorizadas con Carpinus betulus">Faciación de calizas marmorizadas con Carpinus betulus</option>';
+            SERIE_options_str  += '<option value="Faciación de foces y congostos con Arbutus unedo">Faciación de foces y congostos con Arbutus unedo</option>';
+            SERIE_options_str  += '<option value="Faciación mesomediterránea con Quercus coccifera">Faciación mesomediterránea con Quercus coccifera</option>';
+            SERIE_options_str  += '<option value="Faciación montana con Quercus humilis">Faciación montana con Quercus humilis</option>';
+            SERIE_options_str  += '<option value="Faciación sangüesina con Buxus sempervirens">Faciación sangüesina con Buxus sempervirens</option>';
+            SERIE_options_str  += '<option value="Faciación sobre yesos">Faciación sobre yesos</option>';
+            SERIE_options_str  += '<option value="Faciación sobre yesos cristalinos">Faciación sobre yesos cristalinos</option>';
+            SERIE_options_str  += '<option value="Faciación supramediterránea con Arctostaphylos crassifolia">Faciación supramediterránea con Arctostaphylos crassifolia</option>';
+            SERIE_options_str  += '<option value="Geoserie bajoaragonesa halohigrófila de saladares">Geoserie bajoaragonesa halohigrófila de saladares</option>';
+            SERIE_options_str  += '<option value="Geoserie fluvial cantabroatlántica oriental de las alisedas">Geoserie fluvial cantabroatlántica oriental de las alisedas</option>';
+            SERIE_options_str  += '<option value="Geoserie fluvial castellano-cantábrica y pamplonesa de las alisedas y olmedas">Geoserie fluvial castellano-cantábrica y pamplonesa de las alisedas y olmedas</option>';
+            SERIE_options_str  += '<option value="Geoserie fluvial pirenaica central y prepirenaica de las choperas negras">Geoserie fluvial pirenaica central y prepirenaica de las choperas negras</option>';
+            SERIE_options_str  += '<option value="Geoserie mediterránea ibérica central mesomediterránea de las alamedas blancas fluviales">Geoserie mediterránea ibérica central mesomediterránea de las alamedas blancas fluviales</option>';
+            SERIE_options_str  += '<option value="Masas de Agua">Masas de Agua</option>';
+            SERIE_options_str  += '<option value="Serie altioreina pirenaica central de los pastizales criorotemplados calcícolas de Kobresia myosuroides (Oxytropido foucaudii-Kobresio myosuroidis Sigmetum)">Serie altioreina pirenaica central de los pastizales criorotemplados calcícolas de Kobresia myosuroides (Oxytropido foucaudii-Kobresio myosuroidis Sigmetum)</option>';
+            SERIE_options_str  += '<option value="Serie asturiano-euskalduna de las fresnedas con robles pedunculados temporihigrófilas (Polysticho setiferi-Fraxino excelsior S.)">Serie asturiano-euskalduna de las fresnedas con robles pedunculados temporihigrófilas (Polysticho setiferi-Fraxino excelsior S.)</option>';
+            SERIE_options_str  += '<option value="Serie ayllonense, oroibérica septentrional y leonesa de los marojales (Festuco braun-blanquetii-Querco pyrenaicae S.)">Serie ayllonense, oroibérica septentrional y leonesa de los marojales (Festuco braun-blanquetii-Querco pyrenaicae S.)</option>';
+            SERIE_options_str  += '<option value="Serie bajoaragonesa de los coscojares con sabinas negrales mesomediterráneos (Rhamno lycioidis-Querco cocciferae S.)">Serie bajoaragonesa de los coscojares con sabinas negrales mesomediterráneos (Rhamno lycioidis-Querco cocciferae S.)</option>';
+            SERIE_options_str  += '<option value="Serie bajoaragonesa de los encinares rotundifolios mesomediterráneos (Querco rotundifoliae S.)">Serie bajoaragonesa de los encinares rotundifolios mesomediterráneos (Querco rotundifoliae S.)</option>';
+            SERIE_options_str  += '<option value="Serie cantabroeuskalduna de los marojales (Melampyro pratensis-Querco pyrenaicae S.)">Serie cantabroeuskalduna de los marojales (Melampyro pratensis-Querco pyrenaicae S.)</option>';
+            SERIE_options_str  += '<option value="Serie cantabroeuskalduna de los robledales albares (Pulmonario longifoliae-Querco petraeae S.)">Serie cantabroeuskalduna de los robledales albares (Pulmonario longifoliae-Querco petraeae S.)</option>';
+            SERIE_options_str  += '<option value="Serie cantabroeuskalduna de los robledales pedunculados (Hyperico pulchri-Querco roboris S.)">Serie cantabroeuskalduna de los robledales pedunculados (Hyperico pulchri-Querco roboris S.)</option>';
+            SERIE_options_str  += '<option value="Serie cantabroeuskalduna y ovetense de los encinares ilicifolios e híbridos relictos (Lauro nobilis-Querco ilicis S.)">Serie cantabroeuskalduna y ovetense de los encinares ilicifolios e híbridos relictos (Lauro nobilis-Querco ilicis S.)</option>';
+            SERIE_options_str  += '<option value="Serie cantabroeuskalduna y pirenaica occidental de los hayedos acidófilos (Saxifrago hirsutae-Fago sylvaticae S.)">Serie cantabroeuskalduna y pirenaica occidental de los hayedos acidófilos (Saxifrago hirsutae-Fago sylvaticae S.)</option>';
+            SERIE_options_str  += '<option value="Serie castellano-cantábrica y camerana de los encinares rotundifolios (Spiraeo obovatae-Querco rotundifoliae S.)">Serie castellano-cantábrica y camerana de los encinares rotundifolios (Spiraeo obovatae-Querco rotundifoliae S.)</option>';
+            SERIE_options_str  += '<option value="Serie castellano-cantábrica, riojano-estellesa y camerana de los quejigares ibéricos (Spiraeo obovatae-Querco fagineae S.)">Serie castellano-cantábrica, riojano-estellesa y camerana de los quejigares ibéricos (Spiraeo obovatae-Querco fagineae S.)</option>';
+            SERIE_options_str  += '<option value="Serie navarro-alavesa de los robledales pedunculados temporihigrófilos (Crataego laevigatae-Querco roboris S.)">Serie navarro-alavesa de los robledales pedunculados temporihigrófilos (Crataego laevigatae-Querco roboris S.)</option>';
+            SERIE_options_str  += '<option value="Serie navarro-alavesa y cántabra meridional de los quejigares ibéricos (Pulmonario longifoliae-Querco fagineae S.)">Serie navarro-alavesa y cántabra meridional de los quejigares ibéricos (Pulmonario longifoliae-Querco fagineae S.)</option>';
+            SERIE_options_str  += '<option value="Serie orocantabroatlántica de los hayedos mesofíticos neutrófilos (Carici sylvaticae-Fago sylvaticae S.)">Serie orocantabroatlántica de los hayedos mesofíticos neutrófilos (Carici sylvaticae-Fago sylvaticae S.)</option>';
+            SERIE_options_str  += '<option value="Serie orocantabroatlántica y oroibérica septentrional de los hayedos submesofíticos neutrófilos (Epipactido helleborines-Fago sylvaticae S.)">Serie orocantabroatlántica y oroibérica septentrional de los hayedos submesofíticos neutrófilos (Epipactido helleborines-Fago sylvaticae S.)</option>';
+            SERIE_options_str  += '<option value="Serie oroibérica septentrional y ayllonense de los hayedos acidófilos (Galio rotundifolii-Fago sylvaticae S.)">Serie oroibérica septentrional y ayllonense de los hayedos acidófilos (Galio rotundifolii-Fago sylvaticae S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica de las fresnedas con robles albares o pubescentes temporihigrófilas (Brachypodio sylvatici-Fraxino excelsioris S.)">Serie pirenaica de las fresnedas con robles albares o pubescentes temporihigrófilas (Brachypodio sylvatici-Fraxino excelsioris S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica de los hayedos submesofíticos neutrófilos (Buxo sempervirentis-Fago sylvaticae S.)">Serie pirenaica de los hayedos submesofíticos neutrófilos (Buxo sempervirentis-Fago sylvaticae S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica occidental supratemplada de los abetales submesofíticos neutrófilos (Emero majoris-Abieti albae S.)">Serie pirenaica occidental supratemplada de los abetales submesofíticos neutrófilos (Emero majoris-Abieti albae S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica occidental y navarro-alavesa de los robledales pubescentes (Roso arvensis-Querco pubescentis S.)">Serie pirenaica occidental y navarro-alavesa de los robledales pubescentes (Roso arvensis-Querco pubescentis S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica orotemplada de los pinares negros con rododendros mesofíticos y quionófilos (Rhododendro ferruginei-Pino uncinatae S.) y serie pirenaica orotemplada de los pinares negros xerofíticos y quionófobos(Arctostaphylo uvae-ursi-Pino uncinatae S.">Serie pirenaica orotemplada de los pinares negros con rododendros mesofíticos y quionófilos (Rhododendro ferruginei-Pino uncinatae S.) y serie pirenaica orotemplada de los pinares negros xerofíticos y quionófobos(Arctostaphylo uvae-ursi-Pino uncinatae S.</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica supratemplada de los abetales mesofíticos neutrófilos (Festuco altissimae-Abieti albae S.)">Serie pirenaica supratemplada de los abetales mesofíticos neutrófilos (Festuco altissimae-Abieti albae S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica supratemplada de los hayedos mesofíticos neutrófilos (Scillo lilio-hyacinthi-Fago sylvaticae S.)">Serie pirenaica supratemplada de los hayedos mesofíticos neutrófilos (Scillo lilio-hyacinthi-Fago sylvaticae S.)</option>';
+            SERIE_options_str  += '<option value="Serie pirenaica supratemplada de los pinares albares silicícolas (Veronico officinalis-Pino sylvestris S.)">Serie pirenaica supratemplada de los pinares albares silicícolas (Veronico officinalis-Pino sylvestris S.)</option>';
+            SERIE_options_str  += '<option value="Serie prepirenaica occidental supratemplada de los pinares albares calcícolas (Echinosparto horridi-Pino sylvestris S.)">Serie prepirenaica occidental supratemplada de los pinares albares calcícolas (Echinosparto horridi-Pino sylvestris S.)</option>';
+            SERIE_options_str  += '<option value="Serie prepirenaica y somontana de los encinares rotundifolios (Buxo sempervirentis-Querco rotundifoliae S.)">Serie prepirenaica y somontana de los encinares rotundifolios (Buxo sempervirentis-Querco rotundifoliae S.)</option>';
+            SERIE_options_str  += '<option value="Serie somontana de los quejigares ibéricos (Violo willkommii-Querco fagineae S.)">Serie somontana de los quejigares ibéricos (Violo willkommii-Querco fagineae S.)</option>';
+            sel_SERIE.innerHTML = SERIE_options_str;
+            div_SERIE.appendChild(sel_SERIE);
+            var lab_SERIE = document.createElement('div');
+            lab_SERIE.innerHTML = 'SERIE';
+            lab_SERIE.className = 'filterlabel';
+            div_SERIE.appendChild(lab_SERIE);
+            var reset_SERIE = document.createElement('div');
+            reset_SERIE.innerHTML = 'clear filter';
+            reset_SERIE.className = 'filterlabel';
+            reset_SERIE.onclick = function() {
+                var options = document.getElementById("sel_SERIE").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_SERIE.appendChild(reset_SERIE);
+        </script>
+    </body>
+</html>
