@@ -11,11 +11,11 @@
     html, body, #map {  width: 100%; /* anchura de 100% para que se modifique segun la pantalla*/
         height: 100px; /* Defino la altura */
         align-content: center;
-        background-color: black  /* color de fondo */
+        background-color: grey  /* color de fondo */
 
       }
 /* estilo del primer encabezado*/
-    h1 {background-color: black; color: white; padding: 5px; font-family: sans-serif; text-align: left ;} /* Fondo del titulo en negro y letras blancas*/
+    h1 {background-color: grey; color: white; padding: 5px; font-family: sans-serif; text-align: left ;} /* Fondo del titulo en negro y letras blancas*/
     </style>
 
 <!-- establezco las características generales del visualizador, incluyendo los metadatos, archivos .css y .js-->
@@ -931,7 +931,7 @@
             document.getElementById("menu").appendChild(div_SERIE);
             sel_SERIE = document.createElement('select');
             sel_SERIE.multiple = true;
-            sel_SERIE.size = 20;
+            sel_SERIE.size = 15;
             sel_SERIE.id = "sel_SERIE";
             var SERIE_options_str = "<option value='' unselected></option>";
             sel_SERIE.onchange = function(){filterFunc()};
