@@ -9,8 +9,7 @@
 <!-- Añado estilo css para la visualización general. Cambio la extensión y posición del mapa y creo estilos para los encabezados 1 y 3-->
 
 <style>
-    html, body, #map {  width: 90%; /* anchura de 100% para que se modifique segun la pantalla*/
-        height: 100px; /* Defino la altura */
+    html, body, #map {   /* anchura de 100% para que se modifique segun la pantalla*/
         align-content: center;
         background-color: 768382  /* color de fondo */
 
@@ -990,7 +989,7 @@
             lab_SERIE.className = 'FILTRO';
             div_SERIE.appendChild(lab_SERIE);
             var reset_SERIE = document.createElement('div'); // para limpiar la seleccion de la serie
-            reset_SERIE.innerHTML = 'Limpiar filtro'; 
+            reset_SERIE.innerHTML = 'clear filter'; 
             reset_SERIE.className = 'filterlabel';
             reset_SERIE.onclick = function() {
                 var options = document.getElementById("sel_SERIE").options;
