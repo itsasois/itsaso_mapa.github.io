@@ -16,7 +16,6 @@
       }
 /* estilo del primer encabezado*/
     h1 {background-color: black; color: white; padding: 5px; font-family: sans-serif; text-align: left ;} /* Fondo del titulo en negro y letras blancas*/
-    h3 {color: black; font-family: sans-serif; text-align: center}
    
     </style>
 
@@ -987,11 +986,11 @@
             sel_SERIE.innerHTML = SERIE_options_str;
             div_SERIE.appendChild(sel_SERIE);
             var lab_SERIE = document.createElement('div');
-            lab_SERIE.innerHTML = 'Serie de vegetación';
-            lab_SERIE.className = 'FILTRO';
+            lab_SERIE.innerHTML = 'SERIE';
+            lab_SERIE.className = 'filterlabel';
             div_SERIE.appendChild(lab_SERIE);
-            var reset_SERIE = document.createElement('div'); // para limpiar la seleccion de la serie
-            reset_SERIE.innerHTML = 'clear filter'; 
+            var reset_SERIE = document.createElement('div');
+            reset_SERIE.innerHTML = 'clear filter';
             reset_SERIE.className = 'filterlabel';
             reset_SERIE.onclick = function() {
                 var options = document.getElementById("sel_SERIE").options;
