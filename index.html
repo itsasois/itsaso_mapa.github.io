@@ -3,7 +3,7 @@
     <title></title>
     </head>
     <body> 
-        <h1> Mapaa con las series de vegetacion de Navarra </h1> <!--Indico el itulo del mapa-->
+        <h1> Mapa con las series de vegetacion de Navarra </h1> <!--Indico el itulo del mapa-->
     
 <!-- Añado estilo css para la visualización general. Cambio la extensión y posición del mapa y creo estilos para los encabezados 1 y 3-->
 
@@ -33,8 +33,8 @@
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         #map {
-            width: 700px; /* Las medidas del mapa*/
-            height: 600px;
+            width: 900px; /* Las medidas del mapa*/
+            height: 800px;
         }
     
         </style> 
@@ -78,12 +78,12 @@
         
         var measureControl = new L.Control.Measure({ // se crea un control para realizar medidas arriba a la izquierda
             position: 'topleft', // posicion del controlador 
-            primaryLengthUnit: 'meters',
+            primaryLengthUnit: 'meters', // las unidades
             secondaryLengthUnit: 'kilometers',
             primaryAreaUnit: 'sqmeters',
             secondaryAreaUnit: 'hectares',
-            activeColor: '#FC0B0B',
-            completedColor: '#FC0B0B' 
+            activeColor: '#FC0B0B', // el color del poligono mientras se este creando
+            completedColor: '#FC0B0B'  // el color del poligono que se crea
         });
         measureControl.addTo(map); //se añade al mapa
         document.getElementsByClassName('leaflet-control-measure-toggle')[0]
@@ -94,9 +94,10 @@
         function setBounds(){
         
         }
-
-        map.createPane('pane_imagensatelite_0');
+//la imagen de satelite
+        map.createPane('pane_imagensatelite_0'); 
         map.getPane('pane_imagensatelite_0').style.zIndex = 400;
+        //la ruta de origen
         var layer_imagensatelite_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             pane: 'pane_imagensatelite_0',
             opacity: 0.7,
@@ -107,7 +108,8 @@
             maxNativeZoom: 18
         });
         layer_imagensatelite_0;
-        map.addLayer(layer_imagensatelite_0);
+        map.addLayer(layer_imagensatelite_0); // lo añadimos al mapa
+        // la serie de vegetacion
         function pop_seriesvegetales_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -128,7 +130,7 @@
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
-
+    // los atributos de la capa serie de vegetacion con sus respectivos colores etc
         function style_seriesvegetales_1_0(feature) {
             switch(String(feature.properties['SERIE'])) {
                 case 'Faciación con Pistacia lentiscus':
@@ -793,9 +795,12 @@
                     break;
             }
         }
+
         map.createPane('pane_seriesvegetales_1');
         map.getPane('pane_seriesvegetales_1').style.zIndex = 401;
         map.getPane('pane_seriesvegetales_1').style['mix-blend-mode'] = 'normal';
+
+        //defino la variable series vegetales y añado el origne del geojson
         var layer_seriesvegetales_1 = new L.geoJson(json_seriesvegetales_1, {
             attribution: '',
             interactive: true,
@@ -806,7 +811,7 @@
             style: style_seriesvegetales_1_0,
         });
         bounds_group.addLayer(layer_seriesvegetales_1);
-        map.addLayer(layer_seriesvegetales_1);
+        map.addLayer(layer_seriesvegetales_1); // añado la variable al mapa
         var baseMaps = {};
         L.control.layers(baseMaps,{'series vegetales<br /><table><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónconPistacialentiscus0.png" /></td><td>Faciación con Pistacia lentiscus</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciacióndecalizasmarmorizadasconCarpinusbetulus1.png" /></td><td>Faciación de calizas marmorizadas con Carpinus betulus</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciacióndefocesycongostosconArbutusunedo2.png" /></td><td>Faciación de foces y congostos con Arbutus unedo</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónmesomediterráneaconQuercuscoccifera3.png" /></td><td>Faciación mesomediterránea con Quercus coccifera</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónmontanaconQuercushumilis4.png" /></td><td>Faciación montana con Quercus humilis</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónsangüesinaconBuxussempervirens5.png" /></td><td>Faciación sangüesina con Buxus sempervirens</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Faciaciónsobreyesos6.png" /></td><td>Faciación sobre yesos</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Faciaciónsobreyesoscristalinos7.png" /></td><td>Faciación sobre yesos cristalinos</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_FaciaciónsupramediterráneaconArctostaphyloscrassifolia8.png" /></td><td>Faciación supramediterránea con Arctostaphylos crassifolia</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriebajoaragonesahalohigrófiladesaladares9.png" /></td><td>Geoserie bajoaragonesa halohigrófila de saladares</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriefluvialcantabroatlánticaorientaldelasalisedas10.png" /></td><td>Geoserie fluvial cantabroatlántica oriental de las alisedas</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriefluvialcastellanocantábricaypamplonesadelasalisedasyolmedas11.png" /></td><td>Geoserie fluvial castellano-cantábrica y pamplonesa de las alisedas y olmedas</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriefluvialpirenaicacentralyprepirenaicadelaschoperasnegras12.png" /></td><td>Geoserie fluvial pirenaica central y prepirenaica de las choperas negras</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_Geoseriemediterráneaibéricacentralmesomediterráneadelasalamedasblancasfluviales13.png" /></td><td>Geoserie mediterránea ibérica central mesomediterránea de las alamedas blancas fluviales</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_MasasdeAgua14.png" /></td><td>Masas de Agua</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriealtioreinapirenaicacentraldelospastizalescriorotempladoscalcícolasdeKobresiamyosuroidesOxytropidofoucaudiiKobresiomyosuroidisSigmetum15.png" /></td><td>Serie altioreina pirenaica central de los pastizales criorotemplados calcícolas de Kobresia myosuroides (Oxytropido foucaudii-Kobresio myosuroidis Sigmetum)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieasturianoeuskaldunadelasfresnedasconroblespedunculadostemporihigrófilasPolystichosetiferiFraxinoexcelsiorS16.png" /></td><td>Serie asturiano-euskalduna de las fresnedas con robles pedunculados temporihigrófilas (Polysticho setiferi-Fraxino excelsior S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieayllonenseoroibéricaseptentrionalyleonesadelosmarojalesFestucobraunblanquetiiQuercopyrenaicaeS17.png" /></td><td>Serie ayllonense, oroibérica septentrional y leonesa de los marojales (Festuco braun-blanquetii-Querco pyrenaicae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriebajoaragonesadeloscoscojaresconsabinasnegralesmesomediterráneosRhamnolycioidisQuercococciferaeS18.png" /></td><td>Serie bajoaragonesa de los coscojares con sabinas negrales mesomediterráneos (Rhamno lycioidis-Querco cocciferae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriebajoaragonesadelosencinaresrotundifoliosmesomediterráneosQuercorotundifoliaeS19.png" /></td><td>Serie bajoaragonesa de los encinares rotundifolios mesomediterráneos (Querco rotundifoliae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunadelosmarojalesMelampyropratensisQuercopyrenaicaeS20.png" /></td><td>Serie cantabroeuskalduna de los marojales (Melampyro pratensis-Querco pyrenaicae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunadelosrobledalesalbaresPulmonariolongifoliaeQuercopetraeaeS21.png" /></td><td>Serie cantabroeuskalduna de los robledales albares (Pulmonario longifoliae-Querco petraeae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunadelosrobledalespedunculadosHypericopulchriQuercoroborisS22.png" /></td><td>Serie cantabroeuskalduna de los robledales pedunculados (Hyperico pulchri-Querco roboris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunayovetensedelosencinaresilicifoliosehíbridosrelictosLauronobilisQuercoilicisS23.png" /></td><td>Serie cantabroeuskalduna y ovetense de los encinares ilicifolios e híbridos relictos (Lauro nobilis-Querco ilicis S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecantabroeuskaldunaypirenaicaoccidentaldeloshayedosacidófilosSaxifragohirsutaeFagosylvaticaeS24.png" /></td><td>Serie cantabroeuskalduna y pirenaica occidental de los hayedos acidófilos (Saxifrago hirsutae-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecastellanocantábricaycameranadelosencinaresrotundifoliosSpiraeoobovataeQuercorotundifoliaeS25.png" /></td><td>Serie castellano-cantábrica y camerana de los encinares rotundifolios (Spiraeo obovatae-Querco rotundifoliae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriecastellanocantábricariojanoestellesaycameranadelosquejigaresibéricosSpiraeoobovataeQuercofagineaeS26.png" /></td><td>Serie castellano-cantábrica, riojano-estellesa y camerana de los quejigares ibéricos (Spiraeo obovatae-Querco fagineae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerienavarroalavesadelosrobledalespedunculadostemporihigrófilosCrataegolaevigataeQuercoroborisS27.png" /></td><td>Serie navarro-alavesa de los robledales pedunculados temporihigrófilos (Crataego laevigatae-Querco roboris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerienavarroalavesaycántabrameridionaldelosquejigaresibéricosPulmonariolongifoliaeQuercofagineaeS28.png" /></td><td>Serie navarro-alavesa y cántabra meridional de los quejigares ibéricos (Pulmonario longifoliae-Querco fagineae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieorocantabroatlánticadeloshayedosmesofíticosneutrófilosCaricisylvaticaeFagosylvaticaeS29.png" /></td><td>Serie orocantabroatlántica de los hayedos mesofíticos neutrófilos (Carici sylvaticae-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieorocantabroatlánticayoroibéricaseptentrionaldeloshayedossubmesofíticosneutrófilosEpipactidohelleborinesFagosylvaticaeS30.png" /></td><td>Serie orocantabroatlántica y oroibérica septentrional de los hayedos submesofíticos neutrófilos (Epipactido helleborines-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieoroibéricaseptentrionalyayllonensedeloshayedosacidófilosGaliorotundifoliiFagosylvaticaeS31.png" /></td><td>Serie oroibérica septentrional y ayllonense de los hayedos acidófilos (Galio rotundifolii-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicadelasfresnedasconroblesalbaresopubescentestemporihigrófilasBrachypodiosylvaticiFraxinoexcelsiorisS32.png" /></td><td>Serie pirenaica de las fresnedas con robles albares o pubescentes temporihigrófilas (Brachypodio sylvatici-Fraxino excelsioris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicadeloshayedossubmesofíticosneutrófilosBuxosempervirentisFagosylvaticaeS33.png" /></td><td>Serie pirenaica de los hayedos submesofíticos neutrófilos (Buxo sempervirentis-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicaoccidentalsupratempladadelosabetalessubmesofíticosneutrófilosEmeromajorisAbietialbaeS34.png" /></td><td>Serie pirenaica occidental supratemplada de los abetales submesofíticos neutrófilos (Emero majoris-Abieti albae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicaoccidentalynavarroalavesadelosrobledalespubescentesRosoarvensisQuercopubescentisS35.png" /></td><td>Serie pirenaica occidental y navarro-alavesa de los robledales pubescentes (Roso arvensis-Querco pubescentis S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicaorotempladadelospinaresnegrosconrododendrosmesofíticosyquionófilosRhododendroferrugineiPinouncinataeSyseriepirenaicaorotempladadelospinaresnegrosxerofíticosyquionófobosArctostaphylouvaeursiPinouncinataeS36.png" /></td><td>Serie pirenaica orotemplada de los pinares negros con rododendros mesofíticos y quionófilos (Rhododendro ferruginei-Pino uncinatae S.) y serie pirenaica orotemplada de los pinares negros xerofíticos y quionófobos(Arctostaphylo uvae-ursi-Pino uncinatae S.</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicasupratempladadelosabetalesmesofíticosneutrófilosFestucoaltissimaeAbietialbaeS37.png" /></td><td>Serie pirenaica supratemplada de los abetales mesofíticos neutrófilos (Festuco altissimae-Abieti albae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicasupratempladadeloshayedosmesofíticosneutrófilosScilloliliohyacinthiFagosylvaticaeS38.png" /></td><td>Serie pirenaica supratemplada de los hayedos mesofíticos neutrófilos (Scillo lilio-hyacinthi-Fago sylvaticae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriepirenaicasupratempladadelospinaresalbaressilicícolasVeronicoofficinalisPinosylvestrisS39.png" /></td><td>Serie pirenaica supratemplada de los pinares albares silicícolas (Veronico officinalis-Pino sylvestris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieprepirenaicaoccidentalsupratempladadelospinaresalbarescalcícolasEchinospartohorridiPinosylvestrisS40.png" /></td><td>Serie prepirenaica occidental supratemplada de los pinares albares calcícolas (Echinosparto horridi-Pino sylvestris S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SerieprepirenaicaysomontanadelosencinaresrotundifoliosBuxosempervirentisQuercorotundifoliaeS41.png" /></td><td>Serie prepirenaica y somontana de los encinares rotundifolios (Buxo sempervirentis-Querco rotundifoliae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_SeriesomontanadelosquejigaresibéricosViolowillkommiiQuercofagineaeS42.png" /></td><td>Serie somontana de los quejigares ibéricos (Violo willkommii-Querco fagineae S.)</td></tr><tr><td style="text-align: center;"><img src="legend/seriesvegetales_1_43.png" /></td><td></td></tr></table>': layer_seriesvegetales_1,"imagen satelite": layer_imagensatelite_0,}).addTo(map);
         setBounds();
@@ -976,11 +981,11 @@
             sel_SERIE.innerHTML = SERIE_options_str;
             div_SERIE.appendChild(sel_SERIE);
             var lab_SERIE = document.createElement('div');
-            lab_SERIE.innerHTML = 'SERIE';
+            lab_SERIE.innerHTML = 'Serie de vegetación';
             lab_SERIE.className = 'filterlabel';
             div_SERIE.appendChild(lab_SERIE);
-            var reset_SERIE = document.createElement('div');
-            reset_SERIE.innerHTML = 'Limpiar filtro';
+            var reset_SERIE = document.createElement('div'); // para limpiar la seleccion de la serie
+            reset_SERIE.innerHTML = 'Limpiar filtro'; 
             reset_SERIE.className = 'filterlabel';
             reset_SERIE.onclick = function() {
                 var options = document.getElementById("sel_SERIE").options;
