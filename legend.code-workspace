@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"name": "qgis2web_2020_05_28-20_10_53_753559",
+			"path": "..\\..\\..\\Desktop\\WEB\\qgis2web_2020_05_28-20_10_53_753559"
+		},
+		{
+			"name": "itsasois2.github.io",
+			"path": "..\\itsasois2.github.io"
+		},
+		{
+			"name": "itsasois.github.io",
+			"path": "..\\itsasois.github.io"
+		},
+		{
+			"name": "leaflet",
+			"path": "..\\mapa1\\leaflet"
+		},
+		{
+			"name": "mapas_clase_sinmodificar",
+			"path": "..\\mapa1\\mapas_clase_sinmodificar"
+		},
+		{
+			"name": "polarmap.js-1.2.1",
+			"path": "..\\polarmap.js-1.2.1"
+		},
+		{
+			"name": "ultimo_mapa avanzada",
+			"path": "..\\..\\..\\Desktop\\WEB\\ultimo_mapa avanzada"
+		}
+	],
+	"settings": {}
+}
