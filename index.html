@@ -997,8 +997,8 @@
                     options[i].selected = false;
                 }
                 filterFunc();
-
             };
+            div_SERIE.appendChild(reset_SERIE);
 
            // se añade una escala abajo a la izquierda en km, si le diese imperial true tambien me saldria en millas
             L.control.scale({position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}).addTo(map);
