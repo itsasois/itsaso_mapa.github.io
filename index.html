@@ -64,11 +64,24 @@
 
         <script>
 
-        var highlightLayer;
+        var highlightLayer; // para resaltar los atributos al pasar el raton por encima
         function highlightFeature(e) {
-            highlightLayer = e.target;
+            highlightLayer = e.target; 
+            
+            if (e.target.feature.geometry.type === 'LineString') { //para que al pasar el raton se coloree y ver la informacion
+              highlightLayer.setStyle({
+                color: '#2321B6',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#2321B6',
+                fillOpacity: 0.4
+              });
+
+            }
             highlightLayer.openPopup();
         }
+
         var map = L.map('map', {
             zoomControl: true, maxZoom:28, minZoom:1 // se añade un control de zoom con un maximo y un minimo
 
