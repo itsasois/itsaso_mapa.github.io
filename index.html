@@ -857,6 +857,8 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
+
+        // creo la variable filtro con la serie de vegetacion
         var Filters = {"SERIE": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
@@ -953,10 +955,12 @@
             div_SERIE.className= "filterselect";
             document.getElementById("menu").appendChild(div_SERIE);
             sel_SERIE = document.createElement('select');
-            sel_SERIE.multiple = true;
-            sel_SERIE.size = 10;
+            sel_SERIE.multiple = true; // se pueden seleccionar multiples atributos para el filtro
+            sel_SERIE.size = 20; 
             sel_SERIE.id = "sel_SERIE";
             var SERIE_options_str = "<option value='' unselected></option>";
+
+            //  los nombres de los atributos de la serie vegetal para seleccionar en el filtro
             sel_SERIE.onchange = function(){filterFunc()};
             SERIE_options_str  += '<option value=" con Pistacia lentiscus">Faciación con Pistacia lentiscus</option>';
             SERIE_options_str  += '<option value="Faciación de calizas marmorizadas con Carpinus betulus">Faciación de calizas marmorizadas con Carpinus betulus</option>';
@@ -1008,7 +1012,7 @@
             lab_SERIE.className = 'filterlabel';
             div_SERIE.appendChild(lab_SERIE);
             var reset_SERIE = document.createElement('div');
-            reset_SERIE.innerHTML = 'Limpiar filtro';
+            reset_SERIE.innerHTML = 'Limpiar filtro'; // para resetear el filtro
             reset_SERIE.className = 'filterlabel';
             reset_SERIE.onclick = function() {
                 var options = document.getElementById("sel_SERIE").options;
