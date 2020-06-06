@@ -5,7 +5,8 @@
 <!-- Comienza el cuerpo de la pagina-->
     <body> 
         <h1> Mapa con las series de vegetacion de Navarra </h1> <!--Indico el itulo del mapa-->
-    
+        <h2> Filtro </h2> <!--Indico el itulo del mapa-->
+
 <!-- Añado estilo css para la visualización general. Cambio la extensión y posición del mapa y creo estilos para los encabezados 1 y 3-->
 
 <style>
@@ -16,7 +17,8 @@
       }
 /* estilo del primer encabezado*/
     h1 {background-color: black; color: white; padding: 5px; font-family: sans-serif; text-align: left ;} /* Fondo del titulo en negro y letras blancas*/
-   
+    h2 {background-color: black; color: red; padding: 5px; font-family: sans-serif; text-align: right ;} /* Fondo del titulo en negro y letras blancas*/
+
     </style>
 
 <!-- establezco las características generales del visualizador, incluyendo los metadatos, archivos .css y .js-->
@@ -75,7 +77,7 @@
             } else {
               highlightLayer.setStyle({
                 fillColor: '#2321B6',
-                fillOpacity: 0.4
+                fillOpacity: 0.7
               });
 
             }
@@ -127,7 +129,10 @@
         // la serie de vegetacion
         function pop_seriesvegetales_1(feature, layer) {
             layer.on({
-                mouseout: function(e) {
+               mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -136,7 +141,7 @@
                         });
                     }
                 },
-                mouseover: highlightFeature,
+                mouseover: highlightFeature, // que se destaque al pasar el raton
             });
 
             // el popup de la serie de vegetacion
