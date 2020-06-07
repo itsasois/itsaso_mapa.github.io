@@ -15,7 +15,7 @@
         background-color: black  /* color de fondo */
 
       }
-/* estilo del primer encabezado*/
+/* estilo del primer y segundo encabezado*/
     h1 {background-color: black; color: white; padding: 1px; font-family: sans-serif; text-align: left ;} /* Fondo del titulo en negro y letras blancas*/
     h2 {background-color: black; color: white; padding: 0.5px; font-family: sans-serif; font-size: 15px; text-align: right ;margin-right: 2.5em; } /* Fondo del titulo en negro y letras blancas*/
 
@@ -155,7 +155,7 @@
     // los atributos de la capa serie de vegetacion con sus respectivos colores etc
         function style_seriesvegetales_1_0(feature) {
             switch(String(feature.properties['SERIE'])) {
-                case 'Faciación con Pistacia lentiscus':
+                case ' con Pistacia lentiscus':
                     return {
                 pane: 'pane_seriesvegetales_1',
                 opacity: 1,
@@ -962,7 +962,7 @@
 
             //  los nombres de los atributos de la serie vegetal para seleccionar en el filtro
             sel_SERIE.onchange = function(){filterFunc()};
-            SERIE_options_str  += '<option value=" con Pistacia lentiscus">Faciación con Pistacia lentiscus</option>';
+            SERIE_options_str  += '<option value="Faciación con Pistacia lentiscus">Faciación con Pistacia lentiscus</option>';
             SERIE_options_str  += '<option value="Faciación de calizas marmorizadas con Carpinus betulus">Faciación de calizas marmorizadas con Carpinus betulus</option>';
             SERIE_options_str  += '<option value="Faciación de foces y congostos con Arbutus unedo">Faciación de foces y congostos con Arbutus unedo</option>';
             SERIE_options_str  += '<option value="Faciación mesomediterránea con Quercus coccifera">Faciación mesomediterránea con Quercus coccifera</option>';
